@@ -1,0 +1,20 @@
+#!/bin/csh -f
+# LAST EDITED BY : LIEUWE B LEENE April 2017
+# Mailer Script for detecting hard drive overload
+set mail_path = /ibe/local/bin/server_logs
+set mail_temp = /tmp/cron_mail
+set rt_str = "root"
+set cds_str = "cdsadmin"
+if ! ( -e $mail_temp ) mkdir $mail_temp
+#set dir_list = `df -lh | tail -n +2 | grep -o '[0-9]*%'`
+set dir_list = `df -lh | tail -n +2 | grep -o '[9][0-9]%'`
+set i = $#dir_list
+if ( $i >= 1 ) then
+	#Prepare Message
+       	cat $mail_path/hdd_mail.txt >> $mail_temp/mail_hdd.txt
+	df -lh >> $mail_temp/mail_hdd.txt
+	#Send Message
+	if ( $uid != $rt_str &&  $uid != $cds_str ) then
+       		sendmail -f "root" -t < $mail_temp/mail_hdd.txt
+	endif
+endif

@@ -1,0 +1,19 @@
+#!/bin/csh -f
+# LAST EDITED BY : LIEUWE B LEENE November 2017
+# Mailer Script for requesting machine shutdown to logged in users
+set mail_path = /ibe/local/bin/server_logs
+set mail_temp = /tmp/cron_mail
+if ! ( -e $mail_temp ) mkdir $mail_temp
+# Exception for this user
+set rt_str = "root"
+foreach uid ( "` who | cut -d' ' -f1 `" )
+	# Prepare Message
+	echo "Sending mail to: " $uid
+	echo "To: "$uid"@ic.ac.uk" > $mail_temp/mail_temp.txt
+        cat $mail_path/shutdown_mail.txt >> $mail_temp/mail_temp.txt
+	echo "This message was sent from: " `hostname` "(" `hostid` ")" >> $mail_temp/mail_temp.txt
+	# Send Message
+	if ( $uid != $rt_str ) then
+		sendmail -f "root" -t < $mail_temp/mail_temp.txt
+	endif
+end

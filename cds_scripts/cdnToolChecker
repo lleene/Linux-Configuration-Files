@@ -1,0 +1,31 @@
+#!/bin/bash
+# Automated CDS tool checker
+# Lieuwe B. Leene Jan 2019
+
+if [ -z "${CDS_TOP+x}" ]; then
+  echo "To run cdsCheckList set CDS_TOP to point to Cadence tool root directory (e.g. /usr/local/cadence)";
+  exit 1;
+fi
+
+#Check if running in cdn root directory
+if [ `pwd` != $CDS_TOP ]; then
+	echo "Cadence Tool Checker must be run in cadence root directory"
+	exit 1
+else
+	echo "Generating Check List..."
+fi
+
+# Set Output Location
+output_file="/tmp/cdsCheckList_"`date "+%F"`
+# Process All Valid Directories
+for DIR_NAME in `find * -maxdepth 1 -type d -prune`; do
+	if [ -f $DIR_NAME/tools/bin/checkSysConf ]; then
+		echo "Checking: $DIR_NAME"
+		tool_name=`$DIR_NAME/tools/bin/checkSysConf -r | grep "Valid" -A 2 | awk 'FNR == 2 {print $1}'`
+		$DIR_NAME/tools/bin/checkSysConf $tool_name >> $output_file
+	else
+		echo "$DIR_NAME has no valid checks"
+	fi
+done
+
+echo "Done! See $output_file for results"

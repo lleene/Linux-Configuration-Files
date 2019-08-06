@@ -1,0 +1,13 @@
+#!/bin/csh -f
+# LAST EDITED BY : LIEUWE B LEENE April 2017
+# Mailer Script for monitoring file system usage
+du -sh $USR_DIR_ROOT/* > /tmp/usr_dir_summary.txt
+set mail_path = $THIS_DIR_LOCATION
+set mail_temp = /tmp/cron_mail
+if ! ( -e $mail_temp ) mkdir $mail_temp
+set uid_list = `grep '[2-9][0-9]\{2\}G' /tmp/usr_dir_summary.txt | awk -F/ '{print $4}' `
+foreach uid ( $uid_list )
+	echo "To: "$uid"@ic.ac.uk" > $mail_temp/mail_temp.txt
+	cat $mail_path/capacity_mail.txt >> $mail_temp/mail_temp.txt
+	sendmail -f "root" -t < $mail_temp/mail_temp.txt
+end

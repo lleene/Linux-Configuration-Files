@@ -1,0 +1,5 @@
+#!/bin/csh -f
+# LAST EDITED BY : LIEUWE B LEENE April 2017
+# cron script for collecting available updates
+set update_path = $THIS_DIR_LOCATION
+yum check-update > $update_path/`hostname`.updates

@@ -1,0 +1,335 @@
+#!/bin/csh -f
+
+#
+# EDIT Lieuwe Leene April 2018 - ADDED TSMC LP & GP Options
+# CHANGE MICHAL MASLIK March 2018 - added plot init & changed root /ibe/local
+# Conditional write on cdsinit_local for customisation
+#
+
+#Check if running in user space
+if !( `echo $PWD | awk '{split($0,a,"/"); print a[2] "/" a[3]}'` == $USRDIR_TOP) then
+	echo "Cadence Tools must be run in CBIT user directory"
+	exit 1
+endif
+
+if ( $?kitid ) then
+
+if !( -e .cdsplotinit ) cp $CDS_TOP/../bin/.cdsplotinit .cdsplotinit
+if !( -e .cdsinit_local ) cp -f $CDS_TOP/../bin/.cdsinit_local .cdsinit_local
+
+echo "This is a validated Linux Build, please ignore (if any) the CADENCE SUPPORTED LINUX CONFIGURATION Warning. =)"
+switch ($kitid)
+
+# AMS Processes
+
+	case "ams411":
+		if( $1 != "") echo "Cadence IC 6.1.7.704 (2017) Startup: "
+
+		switch ($1)
+			case "":
+				echo "Cadence IC Startup: usage 'cadence TECH_ID'"
+				echo "Example: 'cadence h18a4'"
+				echo ""
+				echo "---------------------------------------------------"
+				echo "TECH_ID  CDS_VER     TECHNOLOGY DESCRIPTION        "
+				echo "---------------------------------------------------"
+				echo "h18a4    6.1.7.704   AMS 0.18um HV 50V MM/4M   CMOS"
+ 				echo "h18a5    6.1.7.704   AMS 0.18um HV 50V MM/5M   CMOS"
+				echo "h18a6    6.1.7.704   AMS 0.18um HV 50V MM/6M   CMOS"
+				echo "h18a7    6.1.7.704   AMS 0.18um HV 50V MM/7M   CMOS"
+				echo "---------------------------------------------------"
+				exit 1
+			breaksw
+			  case "h18a4":
+			    echo " Loading AMS 0.18um MM/4M h18a4 HV CMOS process..."
+			  breaksw
+
+			  case "h18a5":
+			    echo " Loading AMS 0.18um MM/5M h18a5 HV CMOS process..."
+			  breaksw
+
+			  case "h18a6":
+			    echo " Loading AMS 0.18um MM/6M h18a6 HV CMOS process..."
+			  breaksw
+
+			  case "h18a7":
+			    echo " Loading AMS 0.18um MM/7M h18a7 HV CMOS process..."
+			  breaksw
+
+			  default:
+			    echo "Technology ID not valid, please use 'cadence' command to see available processes."
+			    exit 1
+			  breaksw
+		endsw
+
+		if (-e ./.cdsinit) then
+			ams_cds -tech $1 -64
+		else
+			ams_cds -tech $1 -64 -add ALL
+		endif
+
+	breaksw
+	case "ams414":
+                if( $1 != "") echo "Cadence IC 6.1.7.704 (2017) Startup: "
+
+                switch ($1)
+                        case "":
+                                echo "Cadence IC Startup: usage 'cadence TECH_ID'"
+                                echo "Example: 'cadence ac18a4'"
+                                echo ""
+                                echo "---------------------------------------------------"
+                                echo "TECH_ID  CDS_VER     TECHNOLOGY DESCRIPTION        "
+                                echo "---------------------------------------------------"
+                                echo "ac18a4    6.1.7.704   AMS 0.18um MM/4M Thick  CMOS"
+                                echo "ac18a5    6.1.7.704   AMS 0.18um MM/5M Thick  CMOS"
+                                echo "ac18a6    6.1.7.704   AMS 0.18um MM/6M Thick  CMOS"
+                                echo "ac18m4    6.1.7.704   AMS 0.18um MM/4M Thin  CMOS"
+				echo "ac18m5    6.1.7.704   AMS 0.18um MM/5M Thin  CMOS"
+				echo "ac18m6    6.1.7.704   AMS 0.18um MM/6M Thin  CMOS"
+                                echo "---------------------------------------------------"
+                                exit 1
+                        breaksw
+                          case "ac18a4":
+                            echo " Loading AMS 0.18um 4M ac18a4 Thick Top Metal CMOS process..."
+                          breaksw
+
+			  case "ac18a5":
+                            echo " Loading AMS 0.18um 5M ac18a5 Thick Top Metal CMOS process..."
+                          breaksw
+
+			  case "ac18a6":
+                            echo " Loading AMS 0.18um 6M ac18a6 Thick Top Metal CMOS process..."
+                          breaksw
+
+			  case "ac18m4":
+                            echo " Loading AMS 0.18um 4M ac18m4 Thin Top Metal CMOS process..."
+                          breaksw
+
+			  case "ac18m5":
+                            echo " Loading AMS 0.18um 4M ac18m5 Thin Top Metal CMOS process..."
+                          breaksw
+
+			  case "ac18m6":
+                            echo " Loading AMS 0.18um 4M ac18m6 Thin Top Metal CMOS process..."
+                          breaksw
+
+                          default:
+                            echo "Technology ID not valid, please use 'cadence' command to see available processes."
+                            exit 1
+                          breaksw
+                endsw
+
+                if (-e ./.cdsinit) then
+                        ams_cds -tech $1 -64
+                else
+                        ams_cds -tech $1 -64 -add ALL
+                endif
+
+        breaksw
+	case "ams410":
+
+		if( $1 != "") echo "Cadence IC 6.1.7.704 (2017) Startup: "
+
+		switch ($1)
+			case "":
+				echo "Cadence IC Startup: usage 'cadence TECH_ID'"
+				echo "Example: 'cadence c35b4'"
+				echo ""
+				echo "---------------------------------------------------"
+				echo "TECH_ID  CDS_VER     TECHNOLOGY DESCRIPTION        "
+				echo "---------------------------------------------------"
+				echo "cxq      6.1.7.704   AMS 0.80um MM/2P2M CMOS       "
+				echo "cxz      6.1.7.704   AMS 0.80um MM/2P2M HV CMOS    "
+				echo "byq      6.1.7.704   AMS 0.80um MM/2P2M BiCMOS     "
+				echo "s35d3    6.1.7.704   AMS 0.35um MM/2P3M SiGe BiCMOS"
+				echo "s35d4    6.1.7.704   AMS 0.35um MM/2P4M SiGe BiCMOS"
+				echo "c35b3    6.1.7.704   AMS 0.35um MM/2P3M CMOS       "
+				echo "c35b4    6.1.7.704   AMS 0.35um MM/2P4M CMOS       "
+				echo "h35b3    6.1.7.704   AMS 0.35um HV MM/2P3M CMOS    "
+				echo "h35b4    6.1.7.704   AMS 0.35um HV MM/2P4M CMOS    "
+				echo "---------------------------------------------------"
+				exit 1
+			breaksw
+			  case "cxq":
+			    echo " Loading AMS 0.80um MM/2P2M cxq CMOS process..."
+			  breaksw
+
+			  case "cxz":
+			    echo " Loading AMS 0.80um MM/2P2M cxz HV CMOS process..."
+			  breaksw
+
+			  case "byq":
+			    echo " Loading AMS 0.80um MM/2P2M byq BiCMOS process..."
+			  breaksw
+
+			  case "s35d3":
+			    echo " Loading AMS 0.35um MM/2P3M s35d3 SiGe/BiCMOS process..."
+			  breaksw
+
+			  case "s35d4":
+			    echo " Loading AMS 0.35um MM/2P4M s35d4 SiGe/BiCMOS process..."
+			  breaksw
+
+			  case "c35b3":
+			    echo " Loading AMS 0.35um MM/2P3M c35b3 CMOS process..."
+			  breaksw
+
+			  case "c35b4":
+			    echo " Loading AMS 0.35um MM/2P4M c35b4 CMOS process..."
+			  breaksw
+
+			case "h35b3":
+			    echo " Loading AMS 0.35um HV MM/2P3M h35b3 CMOS process..."
+			breaksw
+
+			case "h35b4":
+			    echo " Loading AMS 0.35um HV MM/2P4M h35b4 CMOS process..."
+			breaksw
+
+		 	default:
+			    echo "Technology ID not valid, please use 'cadence' command to see available processes."
+			    exit 1
+			breaksw
+		endsw
+
+		if (-e ./.cdsinit) then
+			ams_cds -tech $1 -64
+		else
+			ams_cds -tech $1 -64 -add ALL
+		endif
+	breaksw
+
+# UMC Processes
+
+	case "umcic6":
+
+		if( $1 != "") echo "Cadence IC 6.1.7.704 (2017) Startup: "
+
+		switch ($1)
+			case "":
+				echo "Cadence IC Startup: usage 'cadence TECH_ID'"
+				echo "Example: 'cadence umc90nm'"
+				echo ""
+				echo "------------------------------------------------------------------------------"
+				echo "TECH_ID      CDS_VER     TECHNOLOGY DESCRIPTION        "
+				echo "------------------------------------------------------------------------------"
+				echo "umc65ll      6.1.7.704   UMC 65nm Logic/MM LL Low-K CMOS"
+				echo "umc90nm      6.1.7.704   UMC 90nm Logic/MM 1P9M Low-K 2/3-Well CMOS"
+				echo "umc110ae     6.1.7.704   UMC 110nm Logic/MM 1P8M MIMCAP"
+				echo "                             AI Advanced Enhancement CMOS"
+				echo "umc18mmrf    6.1.7.704   UMC 0.18um MM/RF 1.8/3.3V 1P6M MIMCAP CMOS"
+				echo "umc18cis_mm  6.1.7.704   UMC 0.18um CMOS Image Sensor"
+				echo "                             1.8/3.3V 2P4M MMCAP Twin-Well"
+				echo "------------------------------------------------------------------------------"
+				exit 1
+			breaksw
+
+			  case "umc65ll":
+			    echo " Loading UMC 65nm Logic/MM LL Low-K CMOS..."
+			  breaksw
+
+			  case "umc90nm":
+			    echo " Loading UMC 90nm Logic/MM 1P9M Low-K 2/3-Well CMOS..."
+			  breaksw
+
+			  case "umc110ae":
+			    echo " Loading UMC 110nm Logic/MM 1P8M MIMCAP AI Advanced Enhancement CMOS..."
+			  breaksw
+
+			  case "umc18mmrf":
+			    echo " Loading UMC 0.18um MM/RF 1.8/3.3V 1P6M MIMCAP CMOS..."
+			  breaksw
+
+			  case "umc18cis_mm":
+			    echo " Loading UMC 0.18um CMOS Image Sensor 1.8/3.3V 2P4M MMCAP Twin-Well..."
+			  breaksw
+
+		 	  default:
+			    echo "Technology ID not valid, please use 'cadence' command to see available processes."
+			    exit 1
+			  breaksw
+		endsw
+
+		setenv UMC_FDK_PATH ${UMC_FDK_PATH}/$1
+		source $CDS_TOP/../bin/umcsetup.cshrc
+		virtuoso
+	breaksw
+
+
+# TSMC 65nm Processes
+	case "tsmc65LP":
+		echo "Cadence IC 6.1.6 (2016) Startup: Loading LP TSMC 65nm process..."
+		source $CDS_TOP/../bin/tsmcsetup.cshrc
+		virtuoso -64
+	breaksw
+
+	case "tsmc65GP":
+		echo "Cadence IC 6.1.6 (2016) Startup: Loading GP TSMC 65nm process..."
+		source $CDS_TOP/../bin/tsmcsetup.cshrc
+		virtuoso -64
+	breaksw
+
+# TSMC 180n Process
+	case "tsmc180":
+		echo "Cadence IC 6.1.7 (2016) Startup: Loading TSMC 180 LP MM/6M RF CMOS process..."
+		source $CDS_TOP/../bin/tsmcsetup.cshrc
+		virtuoso -64
+	breaksw
+
+	case "tsmc180BCD":
+		echo "Cadence IC 6.1.7 (2016) Startup: Loading TSMC 180 BCD MM/6M HV CMOS process..."
+		source $CDS_TOP/../bin/tsmcsetup.cshrc
+		virtuoso -64
+	breaksw
+	case "tsmc180FORTE":
+		echo "Cadence IC 6.1.7 (2016) Startup: Loading TSMC 180 BCD MM/6M HV CMOS process..."
+		source $CDS_TOP/../bin/tsmcsetup.cshrc
+		virtuoso -64
+	breaksw
+# GPDK Processes
+	case "gpdk":
+		if (-f Proc_AMS) then
+			echo "This folder is used for GPDK 180nm. Please use another folder for AMS process"
+		else
+		cp -f $CDS_TOP/../bin/cdsinit_local_gpdk18 .cdsinit_local
+		touch Proc_GPDK180
+		switch ($1)
+			case "":
+				echo "Cadence IC Startup: usage 'cadence TECH_ID'"
+				echo "Example: 'cadence gpdk18 '"
+				echo ""
+				echo "------------------------------------------------------------------------------"
+				echo "TECH_ID        CDS_VER     TECHNOLOGY DESCRIPTION        "
+				echo "------------------------------------------------------------------------------"
+				echo "gpdk18         6.1.6       180nm CMOS 9M/2P Generic PDK"
+				echo "------------------------------------------------------------------------------"
+			breaksw
+			  case "gpdk18":
+			    echo "Cadence IC 6.1.6-64b.500.8 (2015) Startup: Loading 180nm CMOS 9M/2P Generic PDK."
+			    source $CDS_TOP/../bin/gpdk18_env.cshrc
+			    virtuoso -64
+			  breaksw
+
+		 	  default:
+			    echo "Technology ID not valid, please use 'cadence' command to see available processes."
+			  breaksw
+		endsw
+		endif
+	breaksw
+	default:
+		echo "The ID for the Process Design Kit is wrong, please 'exit' and reselect the pdk."
+	breaksw
+
+# No Corresponding Process
+	default:
+		echo "The ID for the Process Design Kit is wrong, please 'exit' and reselect the pdk."
+		exit 1
+	breaksw
+endsw
+
+else
+
+# pdk already set!
+echo "Please use command 'pdk' to select a Process Design Kit First!"
+
+endif

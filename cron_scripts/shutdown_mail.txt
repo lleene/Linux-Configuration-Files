@@ -1,0 +1,10 @@
+
+Subject: System Notice - System Reboot
+Cc: root
+
+Dear user,
+
+This is an automated message indicating that a workstation reboot has been requested on a workstation where you are currently logged in. Could you please "reply to all" to this message to notify the administrators when you are able to save your work & data such that the reboot can commence. This would be greatly appreciated.
+
+Sincerely,
+Administration

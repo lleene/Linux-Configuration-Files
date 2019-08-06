@@ -1,0 +1,16 @@
+atom-ide-debugger-native-gdb@0.7.3
+atom-ide-ui@0.13.0
+busy-signal@2.0.1
+intentions@1.1.5
+language-doxygen@0.7.0
+language-latex@1.2.0
+language-matlab@0.2.1
+language-verilog@0.4.0
+latex@0.50.2
+linter@2.3.0
+linter-gcc@0.7.1
+linter-ui-default@1.7.1
+pp-markdown@0.0.2
+script@3.18.1
+wordcount@3.1.0
+

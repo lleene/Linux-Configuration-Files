@@ -1,0 +1,35 @@
+#EDITED LBL 2019
+
+#################################
+#            CADENCE            # 
+#        ARTIST LIBRARIES       #
+#################################
+
+DEFINE basic $CDS_INST_DIR/tools/dfII/etc/cdslib/basic
+DEFINE analogLib $CDS_INST_DIR/tools/dfII/etc/cdslib/artist/analogLib
+DEFINE functional $CDS_INST_DIR/tools/dfII/etc/cdslib/artist/functional
+DEFINE sbaLib $CDS_INST_DIR/tools/dfII/etc/cdslib/artist/sbaLib
+DEFINE US_8ths $CDS_INST_DIR/tools/dfII/etc/cdslib/sheets/US_8ths
+
+
+#################################
+#            CADENCE            # 
+#        SAMPLE LIBRARIES       #
+#################################
+
+DEFINE ahdlLib $CDS_INST_DIR/tools/dfII/samples/artist/ahdlLib
+DEFINE passiveLib $CDS_INST_DIR/tools/dfII/samples/artist/passiveLib
+DEFINE rfLib $CDS_INST_DIR/tools/dfII/samples/artist/rfLib
+DEFINE pllLib $CDS_INST_DIR/tools/dfII/samples/artist/pllLib
+DEFINE bmslib $CDS_INST_DIR/tools/dfII/samples/artist/bmslib
+DEFINE aExamples $CDS_INST_DIR/tools/dfII/samples/artist/aExamples
+
+
+#################################
+#             OTHER             # 
+#        SAMPLE LIBRARIES       #
+#################################
+
+DEFINE BORDERS $GENERIC_LIBS/BORDERS
+DEFINE LEADFRAMES $GENERIC_LIBS/LEADFRAMES
+DEFINE PACKAGES $GENERIC_LIBS/PACKAGES

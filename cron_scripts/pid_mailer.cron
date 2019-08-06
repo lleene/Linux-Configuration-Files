@@ -1,0 +1,27 @@
+#!/bin/csh -f
+# LAST EDITED BY : LIEUWE B LEENE April 2017
+# Mailer Script for detecting persistent process
+set mail_path = $THIS_DIR_LOCATION
+set mail_temp = /tmp/cron_mail
+if ! ( -e $mail_temp ) mkdir $mail_temp
+top -b -n 1 | tail -n +8 | sort -k 11Vb | tail -n 24 | awk '{print $2, $11, $12}' > $mail_path/pids_`hostname`
+set rt_str = "root"
+set cds_str = "cdsadmin"
+set pid_path = $mail_path/pids_`hostname`
+set uid_list = `grep '[6-9][0-9][0-9][0-9]:' $pid_path | cut -d' ' -f1 `
+set pid_list = `grep '[6-9][0-9][0-9][0-9]:' $pid_path | cut -d' ' -f2 `
+set tid_list = `grep '[6-9][0-9][0-9][0-9]:' $pid_path | cut -d' ' -f3 `
+set i = $#pid_list
+while ( $i > 0 )
+	@ dup = 0
+	foreach name ( $uid_list[1-$i] )
+		if ( $name == $uid_list[$i]) @ dup = $dup + 1
+	end
+	if ( $uid_list[$i] != $rt_str &&  $uid_list[$i] != $cds_str && $dup == 1 ) then
+		echo "To: "$uid_list[$i]"@ic.ac.uk" > $mail_temp/mail_pid.txt
+        	cat $mail_path/process_mail.txt >> $mail_temp/mail_pid.txt
+		echo $uid_list[$i] $tid_list[$i] >> $mail_temp/mail_pid.txt
+        	sendmail -f "root" -t < $mail_temp/mail_pid.txt
+	endif
+	@  i = $i - 1
+end

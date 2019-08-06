@@ -1,0 +1,12 @@
+
+Subject: System Notice - User directory quota exceeded
+Cc: root
+
+Dear user,
+
+This is an automated message indicating that your personal folder on the file system is currently occupying a large amount of data. Note that we try to enforce a maximum quota of a 100GB per user.
+
+Please help us with managing our shared file system by removing any unused simulation data or moving personal files to your desktop/personal storage. This would be greatly appreciated.
+
+Sincerely,
+Administration

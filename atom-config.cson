@@ -1,0 +1,73 @@
+"*":
+  "atom-ide-ui":
+    use:
+      "atom-ide-diagnostics-ui": "never"
+  core:
+    autoHideMenuBar: true
+    openEmptyEditorOnStart: false
+    telemetryConsent: "no"
+  editor:
+    scrollPastEnd: true
+    showIndentGuide: true
+    softWrap: true
+  "exception-reporting":
+    userId: ""
+  github:
+    gitDiagnostics: true
+  latex:
+    buildOnSave: true
+    cleanPatterns: [
+      "**/*.aux"
+      "**/*.aux.bak"
+      "**/*.bbl"
+      "**/*.bcf"
+      "**/*.blg"
+      "**/*.dvi"
+      "**/*.fdb_latexmk"
+      "**/*.fls"
+      "**/*.idx"
+      "**/*.idx.bak"
+      "**/*.ilg"
+      "**/*.ind"
+      "**/*.lof"
+      "**/*.log"
+      "**/*.lol"
+      "**/*.lot"
+      "**/*.nav"
+      "**/*.out"
+      "**/*.pdf"
+      "**/*.ps"
+      "**/*.snm"
+      "**/*.synctex.gz"
+      "**/*.toc"
+      "/**/_minted-{jobname}"
+      "/{output_dir}/sage-plots-for-{jobname}.tex"
+      "/missfont.log"
+      "/texput.log"
+      "/texput.aux"
+      "**/*.xdf"
+      "**/*.xdv"
+    ]
+    moveResultToSourceDirectory: false
+    viewerPath: "/usr/bin/mupdf"
+  "linter-gcc":
+    gccLintOnTheFly: true
+  "linter-ui-default":
+    panelHeight: 256
+    showPanel: true
+  "spell-check":
+    grammars: [
+      "source.asciidoc"
+      "source.gfm"
+      "text.git-commit"
+      "text.plain"
+      "text.plain.null-grammar"
+      "source.rst"
+      "text.restructuredtext"
+      "text.tex.latex"
+    ]
+    locales: [
+      "en-GB"
+    ]
+  welcome:
+    showOnStartup: false

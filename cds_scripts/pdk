@@ -1,0 +1,144 @@
+#!/bin/csh -f
+#
+# Last Edited: Lieuwe Leene April 2019
+#
+
+#Check if running in user space
+if !( `echo $PWD | awk '{split($0,a,"/"); print a[2] "/" a[3]}'` == "ibe/users") then
+	echo "Cadence Tools must be run in CBIT user directory"
+	exit 1
+endif
+
+[ -f ~/.cshrc ] || cp /opt/local/bin/.cshrc ~/.cshrc && echo ".cshrc loaded"
+
+if ( $?kitid ) then
+    echo "Please type 'exit' to unload the current PDK first before loading a new one!"
+else
+
+set cmd_str = "setenv kitid "$1";"
+set end_str = "echo 'Done!'; exec /bin/csh;"
+
+switch ($1)
+  case "":
+    echo "Process Design Kit Setup: usage 'pdk KIT_ID'"
+    echo "Example: 'pdk ams410'"
+    echo ""
+    echo "-----------------------------------------------------------------------------"
+    echo "####################################"
+    echo "###BELOW IS FOR CADENCE IC 6.1.xx###"
+    echo "####################################"
+    echo "-----------------------------------------------------------------------------"
+    echo "KIT_ID	KIT_VE			TECHNOLOGY INCLUDED	      	TECH_ID"
+    echo "-----------------------------------------------------------------------------"
+    echo "ams414  HK 4.14(Base)		AMS 0.18um MM/4M Thick  CMOS    ac18a4"
+    echo "	HK 4.14(Base)		AMS 0.18um MM/5M Thick  CMOS	ac18a5"
+    echo "	HK 4.14(Base)           AMS 0.18um MM/6M Thick  CMOS    ac18a6"
+    echo "	HK 4.14(Base)           AMS 0.18um MM/4M Thin   CMOS    ac18m4"
+    echo "	HK 4.14(Base)           AMS 0.18um MM/5M Thin   CMOS    ac18m5"
+    echo "	HK 4.14(Base)           AMS 0.18um MM/6M Thin   CMOS    ac18m6"
+    echo "------"
+    echo "ams411	HK 4.11(Base)		AMS 0.18um HV 50V MM/4M CMOS	h18a4"
+    echo "	HK 4.11(Base)		AMS 0.18um HV 50V MM/5M CMOS	h18a5"
+    echo "	HK 4.11(Base)		AMS 0.18um HV 50V MM/6M CMOS	h18a6"
+    echo "	HK 4.11(Base)		AMS 0.18um HV 50V MM/7M CMOS	h18a7"
+    echo "------"
+    echo "ams410	HK 4.10(Base)		AMS 0.80um MM/2P2M CMOS		cxq"
+    echo "	HK 4.10(Base)		AMS 0.80um MM/2P2M HV CMOS	cxz"
+    echo "	HK 4.10(Base) 		AMS 0.80um MM/2P2M BiCMOS	byq"
+    echo "	HK 4.10(Base)		AMS 0.35um MM/2P3M SiGe BiCMOS	s35d3"
+    echo "	HK 4.10(Base)		AMS 0.35um MM/2P4M SiGe BiCMOS	s35d4"
+    echo "	HK 4.10(Base)		AMS 0.35um MM/2P3M CMOS		c35b3"
+    echo "	HK 4.10(Base)		AMS 0.35um MM/2P4M CMOS		c35b4"
+    echo "------"
+    echo "tsmc180	TSMC General Purpose 180nm Design kit"
+    echo "tsmc180BCD	TSMC 180nm HV BCD GEN II Design kit"
+    echo "tsmc180FORTE	TSMC 180nm FORTE HV-MEMRISTOR Design kit"
+    echo "tsmc65LP	TSMC Low Power 65nm Design kit"
+    echo "tsmc65GP	TSMC General Purpose 65nm Design kit"
+    echo "------"
+    echo "pcb		Allegro Design Tool"
+    echo "------"
+    echo "umc	PDK is deprecated for use please contact Cadence Admin"
+    echo "-----------------------------------------------------------------------------"
+  breaksw
+
+# AMS Processes
+  
+  case "ams411":
+    echo "Setting AMS Hit-Kit 4.11..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw
+
+  case "ams410":
+    echo "Setting AMS Hit-Kit 4.10..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw
+
+  case "ams414":
+    echo "Setting AMS Hit-Kit 4.14..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw
+
+# UMC Processes
+  case "umcic5":
+    echo "Setting UMC Design kit for IC 5 (CDB)..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw
+
+  case "umcic6":
+    echo "Setting UMC Design kit for IC 6 (OA)..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw	
+
+# TSMC Processes with check for compatable IC
+  case "tsmc65LP":
+    if -e "/usr/local/cadence/IC_6.1.6.080" then
+      echo "Setting TSMC 65nm Design kit for IC 6 (CDB)..."
+      exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+    else
+      echo "TSMC is not available on this machine. Please use ib-theia."
+    endif
+  breaksw
+
+  case "tsmc65GP":
+    echo "Setting TSMC 65nm Design kit for IC 6 (CDB)..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw
+
+  case "tsmc180BCD":
+    echo "Setting TSMC 180nm BCD Design kit for IC 6 (CDB)..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw
+
+  case "tsmc180FORTE":
+    echo "Setting TSMC 180nm FORTE Design kit for IC 6 (CDB)..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw
+
+  case "tsmc180":
+    echo "Setting TSMC 180nm 1P6M LO MM RF Design kit for IC 6 (CDB)..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw
+
+# Allegro PCB Design Tool
+  case "pcb":
+    echo "Setting no PDK for Allegro PCB design with IC 6 (CDB)..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw
+
+
+# GPDK Processes (In Hera only gpdk180 found under gpdk, other server need to check)
+  case "gpdk":
+    echo "Setting Generic PDK (GPDK)..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
+  breaksw
+
+# No PDK found
+
+  default:
+    echo "No Process Design Kit found! Please see available PDK using pdk command alone."
+  breaksw
+
+endsw
+endif
+

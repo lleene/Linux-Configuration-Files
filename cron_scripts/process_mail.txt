@@ -1,0 +1,15 @@
+
+Subject: System Notice - Persistent process detected
+Cc: root
+Body:
+
+Dear user,
+
+This is an automated message indicating that there is a process running under your user name on the workstation sending this message. We regularly need to check for hanged or crashed processes that do not terminate properly.
+
+Please help us with managing our work stations by killing any persistent process that is unintentionally running. This would be greatly appreciated.
+
+The process details are appended to this message. Please ignore this email if it is intended workload.
+
+Sincerely,
+Administration

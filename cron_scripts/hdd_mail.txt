@@ -1,0 +1,9 @@
+To: root
+Subject: System Notice - Hard Drive Almost Full!
+
+Dear Administrator,
+
+This is an automated warning message indicating that the workstation sending this message has over 90% hard drive utilisation. Please take action before system failure.
+
+Sincerely,
+Administration

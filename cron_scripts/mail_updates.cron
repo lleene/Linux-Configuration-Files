@@ -1,0 +1,29 @@
+#!/bin/csh -f
+# LAST EDITED BY : LIEUWE B LEENE April 2017
+# Mailer Script for reporting available updates
+
+set up_path = $THIS_DIR_LOCATION
+set mail_temp = /tmp/cron_mail
+if ! ( -e $mail_temp ) mkdir $mail_temp
+
+yum check-update > $up_path/`hostname`.updates
+sleep 200
+
+set flist = `find $up_path -type f -name "ib-*.updates" -printf "%f\n"`
+if ( $#flist == 0 ) then
+	echo "Update files not found"
+	exit 1
+endif
+
+echo "To: root " > $mail_temp/update_temp
+echo "Subject: System Notice - Pending updates" >> $mail_temp/update_temp
+echo "Body: "  >> $mail_temp/update_temp
+set flist = `find $up_path -type f -name "ib-*.updates" -printf "%f\n"`
+set i = $#flist
+while ( $i > 0 )
+	echo "Host Name - " $flist[$i] >> $mail_temp/update_temp
+	cat $up_path/$flist[$i] >> $mail_temp/update_temp
+	@  i = $i - 1
+end
+
+sendmail -f "root" -t < $mail_temp/update_temp
