@@ -4,12 +4,12 @@
 #
 
 #Check if running in user space
-if !( `echo $PWD | awk '{split($0,a,"/"); print a[2] "/" a[3]}'` == "ibe/users") then
+if !( `echo $PWD | awk '{split($0,a,"/"); print a[2] "/" a[3]}'` == $USRDIR_TOP) then
 	echo "Cadence Tools must be run in CBIT user directory"
 	exit 1
 endif
 
-[ -f ~/.cshrc ] || cp /opt/local/bin/.cshrc ~/.cshrc && echo ".cshrc loaded"
+[ -f ~/.cshrc ] || cp $CDS_TOP/../bin/.cshrc ~/.cshrc && echo ".cshrc loaded"
 
 if ( $?kitid ) then
     echo "Please type 'exit' to unload the current PDK first before loading a new one!"
@@ -63,7 +63,7 @@ switch ($1)
   breaksw
 
 # AMS Processes
-  
+
   case "ams411":
     echo "Setting AMS Hit-Kit 4.11..."
     exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
@@ -88,11 +88,11 @@ switch ($1)
   case "umcic6":
     echo "Setting UMC Design kit for IC 6 (OA)..."
     exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
-  breaksw	
+  breaksw
 
 # TSMC Processes with check for compatable IC
   case "tsmc65LP":
-    if -e "/usr/local/cadence/IC_6.1.6.080" then
+    if -e "$CDS_TOP/IC_6.1.6.080" then
       echo "Setting TSMC 65nm Design kit for IC 6 (CDB)..."
       exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
     else
@@ -141,4 +141,3 @@ switch ($1)
 
 endsw
 endif
-

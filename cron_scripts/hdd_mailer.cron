@@ -1,7 +1,7 @@
 #!/bin/csh -f
 # LAST EDITED BY : LIEUWE B LEENE April 2017
 # Mailer Script for detecting hard drive overload
-set mail_path = /ibe/local/bin/server_logs
+set mail_path = $THIS_DIR_LOCATION
 set mail_temp = /tmp/cron_mail
 set rt_str = "root"
 set cds_str = "cdsadmin"

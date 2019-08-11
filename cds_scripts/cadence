@@ -1,8 +1,8 @@
-#!/bin/csh -f
+!/bin/csh -f
 
 #
 # EDIT Lieuwe Leene April 2018 - ADDED TSMC LP & GP Options
-# CHANGE MICHAL MASLIK March 2018 - added plot init & changed root /ibe/local
+# CHANGE MICHAL MASLIK March 2018 - added plot init & changed root $USRDIR_TOP
 # Conditional write on cdsinit_local for customisation
 #
 

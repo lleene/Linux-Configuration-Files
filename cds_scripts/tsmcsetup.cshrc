@@ -13,10 +13,10 @@
 
 # Copy of cds.lib, display.drf
 
-if ( !( -e cds.lib ) && ( `echo $PWD | awk '{split($0,a,"/"); print a[2] "/" a[3]}'` == "ibe/users") ) then
+if ( !( -e cds.lib ) && ( `echo $PWD | awk '{split($0,a,"/"); print a[2] "/" a[3]}'` == $USRDIR_TOP) ) then
 	cp $TSMC_PDK_PATH/cds.lib cds.lib
 endif
 
-if ( !( -e display.drf ) && ( `echo $PWD | awk '{split($0,a,"/"); print a[2] "/" a[3]}'` == "ibe/users") ) then
+if ( !( -e display.drf ) && ( `echo $PWD | awk '{split($0,a,"/"); print a[2] "/" a[3]}'` == $USRDIR_TOP) ) then
 	cp $TSMC_PDK_PATH/display.drf display.drf
 endif
