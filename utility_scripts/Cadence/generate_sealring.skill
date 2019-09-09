@@ -1,0 +1,55 @@
+procedure(generate_sealring(cell_name,sizex,sizey)
+	; Try to Open Designated Cell
+	lib_name = "tsmc_c018_sealring_1p5m"
+	corner_cell_name = "tsmc_c018_sealring_corner_1p5m"
+	edge_cell_name = "tsmc_c018_seal_ring_edge_1p5m"
+	lib=ddGetObj(lib_name)
+	id=dbOpenCellViewByType(lib_name cell_name "layout" "maskLayout" "a")
+	; Check Input Arguments
+	if( (dbValidP(id) && numberp(sizex) && numberp(sizey) ) then
+		print("Generating TSMC18-1P5M SealRing")
+		; Clear current layout
+		foreach(inst id~>instances
+			dbDeleteObject(inst)
+		)
+
+		; Place Corners
+		corner_id = dbOpenCellViewByType(lib_name corner_cell_name "layout")
+		edge_id = dbOpenCellViewByType(lib_name edge_cell_name "layout")
+		dbCreateInst(id corner_id "I_BLCORNER" (list -15 -15) "R0")
+		dbCreateInst(id corner_id "I_BRCORNER" (list sizex+15 -15) "R90")
+		dbCreateInst(id corner_id "I_TLCORNER" (list sizex+15 sizey+15) "R180")
+		dbCreateInst(id corner_id "I_TRCORNER" (list -15 sizey+15) "R270")
+
+		; Place Edges
+		(for br -4 sizex+5
+			dbCreateInst(id edge_id nil (list br 0) "R180")
+		)
+		(for rr -4 sizey+5
+			dbCreateInst(id edge_id nil (list sizex rr) "R270")
+		)
+		(for tr -5 sizex+4
+			dbCreateInst(id edge_id nil (list tr sizey) "R0")
+		)
+		(for lr -5 sizey+4
+			dbCreateInst(id edge_id nil (list 0 lr) "R90")
+		)
+
+		; Place Dummy Fill Block
+		sealwidth = 15
+		points = list((0:0) (0:sizey) (sizex:sizey) (sizex:0) (-sealwidth:0) (-sealwidth:-sealwidth) ((sizex+sealwidth):-sealwidth) ((sizex+sealwidth):(sizey+sealwidth)) (-sealwidth:(sizey+sealwidth)) (-sealwidth:0))
+		dbCreatePolygon(id, list("POBLK" "dummy"), points)
+		dbCreatePolygon(id, list("ODBLK" "dummy"), points)
+		dbCreatePolygon(id, list("DMEXCL" "dummy1"), points)
+		dbCreatePolygon(id, list("DMEXCL" "dummy2"), points)
+		dbCreatePolygon(id, list("DMEXCL" "dummy3"), points)
+		dbCreatePolygon(id, list("DMEXCL" "dummy4"), points)
+		dbCreatePolygon(id, list("DMEXCL" "dummy5"), points)
+		dbCreateRect(id, list("prBoundary" "drawing"), list((0:0) (sizex:sizey)) )
+
+		else print("Invalid Arguments!")
+	) ; if
+	dbSave(id lib_name cell_name "layout")
+	dbClose(id)
+
+) ; procedure

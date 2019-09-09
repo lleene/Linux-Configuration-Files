@@ -1,0 +1,14 @@
+#!/bin/csh
+# VPN Init file 
+
+sh -c 'pon imperial_vpn debug dump logfd 2 nodetach > ./vpn_out.log' &
+
+sleep 5
+
+set wlangate = `ip route show to 0/0 | grep -e wlan -e wlp | cut -d ' ' -f3`
+set vpngate = `ip addr sh dev ppp0 | grep peer | cut -d ' ' -f8 | cut -d '/' -f1`
+
+ip route add 0.0.0.0/1 via $vpngate
+ip route add 128.0.0.0/1 via $vpngate
+
+iptables -t nat -I POSTROUTING -o ppp0 -j MASQUERADE

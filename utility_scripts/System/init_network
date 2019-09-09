@@ -1,0 +1,12 @@
+#!/bin/csh
+# Network Init file 
+
+set wlan_dev = `ifconfig -a | grep -e wlan -e wlp | cut -d ':' -f1 `
+rfkill unblock all 
+ifconfig $wlan_dev up
+ip link set $wlan_dev up
+iwconfig $wlan_dev
+iwlist $wlan_dev scan
+
+echo "pon imperial_vpn debug dump logfd 2 nodetach"
+

@@ -1,0 +1,75 @@
+procedure(make_kring(cell_name,sizex,sizey)
+
+lib_name = "fsdm"
+cell_name = "kring"
+A = 2000
+B = 100
+
+lib=ddGetObj(lib_name)
+id=dbOpenCellViewByType(lib_name cell_name "layout" "" "a")
+
+if ( dbValidP(id)  then
+  dbCreatePRBoundary(id, list((0:0) (0:A) (A:A) (A:0)))
+  dbCreatePolygon(id, list("prBoundary" "drawing"), list((0:0) (0:A) (A:A) (A:0)))
+
+  C = 0
+  points = list((C:C) (C:(A-C)) ((A-C):(A-C)) ((A-C):C) ((B-C):C) ((B-C):(B-C)) ((A-B+C):(B-C)) ((A-B+C):(A-B+C)) ((B-C):(A-B+C)) ((B-C):C))
+  layer_name = list("PIMP" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("DIFF" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("METAL1" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("METAL2" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("METAL3" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("METAL4" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("METAL5" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("METAL6" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+
+  C = 1
+  points = list((C:C) (C:(A-C)) ((A-C):(A-C)) ((A-C):C) ((B-C):C) ((B-C):(B-C)) ((A-B+C):(B-C)) ((A-B+C):(A-B+C)) ((B-C):(A-B+C)) ((B-C):C))
+  layer_name = list("CONT" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("VIA12" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("VIA23" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("VIA34" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("VIA45" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+  layer_name = list("VIA56" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+
+  C = 5
+  points = list((C:C) (C:(A-C)) ((A-C):(A-C)) ((A-C):C) ((B-C):C) ((B-C):(B-C)) ((A-B+C):(B-C)) ((A-B+C):(A-B+C)) ((B-C):(A-B+C)) ((B-C):C))
+  layer_name = list("PAD" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+
+  B = 50
+  C = 0
+  points = list((C:C) (C:(A-C)) ((A-C):(A-C)) ((A-C):C) ((B-C):C) ((B-C):(B-C)) ((A-B+C):(B-C)) ((A-B+C):(A-B+C)) ((B-C):(A-B+C)) ((B-C):C))
+  layer_name = list("RPO" "drawing")
+  dbCreatePolygon(id, layer_name, points)
+
+  A = 1995
+  B = 100
+  C = -2.5
+  points = list((C:C) (C:(A-C)) ((A-C):(A-C)) ((A-C):C) ((B-C):C) ((B-C):(B-C)) ((A-B+C):(B-C)) ((A-B+C):(A-B+C)) ((B-C):(A-B+C)) ((B-C):C))
+  layer_name = list("OD2" "drawing")
+  shape = dbCreatePolygon(id, layer_name, points)
+  dbMoveShape(shape, id, list((2.5:2.5) "R0" 1))
+
+  dbSave(id lib_name cell_name "layout")
+
+  else print("Cannot Open Cell!")
+) ; if
+
+dbClose(id)
+
+) ; procedure

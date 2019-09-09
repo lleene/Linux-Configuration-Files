@@ -1,0 +1,25 @@
+procedure(merge_by_layer(cell_name lib_name)
+	;; This script need requires a patch to also merge PATHS
+	;; Try to Open Designated Cell
+	lib=ddGetObj(lib_name)
+	id=dbOpenCellViewByType(lib_name cell_name "layout" "maskLayout" "a")
+	if( dbValidP(id) then
+    ;; mergelayer_list = list("METAL1" "METAL2" "METAL3" "METAL4" "METAL5")
+		;; mergelayer_list = list("PIMP" "NIMP" "NWELL" "OD2" "DIFF")
+    foreach(mergelayer mergelayer_list
+      leMergeShapes(
+        ;; take the first (hopefully the only) result from 'setof'
+        car(
+          ;; filter through the layer-purpose pairs to find the "metal1"
+          ;; layer - here I'm assuming only one purpose is used, but the
+          ;; purpose can be matched explicitly also by adding to the
+          ;; condition:  && purpose=="drawing"
+          setof(lp id~>lpps lp~>layerName==mergelayer)
+        )~>shapes
+      ) ; mergeshapes
+    ) ; foreach
+  else print("Invalid Arguments!")
+  ) ; if
+  dbSave(id lib_name cell_name "layout")
+  dbClose(id)
+) ; procedure

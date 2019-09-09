@@ -1,0 +1,10 @@
+#!/bin/csh
+# Network Init file 
+
+set wlan_dev = `ifconfig -a | grep -e wlan -e wlp | cut -d ':' -f1 `
+
+echo "wpa_passphrase ssid passwd >> /etc/wpa_supplicant.conf"
+wpa_supplicant -B -i $wlan_dev -c /etc/wpa_supplicant.conf
+dhclient -v $wlan_dev
+ifconfig $wlan_dev
+

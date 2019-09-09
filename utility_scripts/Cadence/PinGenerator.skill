@@ -1,0 +1,22 @@
+lib_name = "tsmc_custom"
+lib=ddGetObj(lib_name)
+foreach(cell lib~>cells		
+	id=dbOpenCellViewByType(lib_name cell~>name "abstract" "" "a") 
+	foreach(term id~>terminals
+		p1=car(term~>pins) ;let supose term has only one pin
+		p1~>net~>name
+		f1=car(p1~>figs)   ;let supose p1 has only objType "rect" 
+		disp=dbCreateTextDisplay( term term list("METAL1"  "pin" ) t centerBox(f1~>bBox) "centerLeft" "R0" "roman" 0.5) 
+		disp~>isNameVisible=nil ;makes the 'name=' invisible
+		disp~>parent=p1~>fig    ;makes the text moving with the rect pin
+	)
+	if((id != nil) then
+		dbSave(id lib_name cell~>name "abstract")
+		;dbSave(id "tsmc_custom_label" cell~>name "abstract")
+		dbClose(id)
+	)
+)
+
+	
+
+

@@ -1,0 +1,13 @@
+#!/bin/csh
+# Network Init file 
+
+set lan_dev = `ifconfig -a | grep enp | cut -d ':' -f1 `
+
+ifconfig $lan_dev up
+ip link set $lan_dev up
+
+sleep 1
+
+dhclient -v $lan_dev
+ifconfig $lan_dev
+
