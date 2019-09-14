@@ -1,0 +1,13 @@
+#!/bin/csh -f
+if ( `eval echo \$\?$1` ) then
+	if (-d $CDS_TOP/../mentor/`eval echo \$$1`) then
+		echo "setenv $2 $CDS_TOP/../mentor/$1"
+	else
+		#echo "Could not find" `eval echo \$$1`
+	endif
+else
+	set toolname = `find $CDS_TOP/../mentor -maxdepth 1 -type d -name "$3" -printf "%f\n" | sort -r | awk '{print $1;exit}'`
+	if !($toolname == "") then
+		echo "setenv $2 $toolname"
+	endif
+endif

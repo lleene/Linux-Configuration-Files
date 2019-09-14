@@ -15,23 +15,17 @@
 #
 #############################################################
 
+# echo "loading frontend"
+
 ##############################################################
 ##
 ## IC
 ##
 ##############################################################
 
-if ($?CDS_IC_VERSION) then
-	if (-d $CDS_TOP/$CDS_IC_VERSION) then
-		setenv CDS_IC $CDS_TOP/$CDS_IC_VERSION
-	else
-		echo "Could not find" $CDS_IC_VERSION
-	endif
-else
-	setenv CDS_IC `find $CDS_TOP -maxdepth 1 -type d -name "IC_6*" -printf "%f\n" | sort -r | awk '{print $1;exit}'`
-endif
+eval `CheckCDSToolVersion "CDS_IC_VERSION" "CDS_IC" "IC_6*"`
 
-if !( $CDS_IC == "" ) then
+if ($?CDS_IC) then
 	setenv CDS_IC $CDS_TOP/$CDS_IC
 	#some use CDSDIR, some CDS_DIR
 	setenv CDSDIR $CDS_IC
@@ -52,17 +46,9 @@ endif
 ##
 #############################################################
 
-if ($?ASSURA_VERSION) then
-	if (-d $CDS_TOP/$ASSURA_VERSION) then
-		setenv CDS_ASSURA $CDS_TOP/$ASSURA_VERSION
-	else
-		echo "Could not find" $ASSURA_VERSION
-	endif
-else
-	setenv CDS_ASSURA `find $CDS_TOP -maxdepth 1 -type d -name "ASSURA_*" -printf "%f\n" | sort -r | awk '{print $1;exit}'`
-endif
+eval `CheckCDSToolVersion "ASSURA_VERSION" "CDS_ASSURA" "ASSURA_*"`
 
-if !( $CDS_ASSURA == "" ) then
+if ($?CDS_ASSURA) then
 	setenv CDS_ASSURA $CDS_TOP/$CDS_ASSURA
 	setenv ASSURAHOME $CDS_ASSURA
 	#the following line might be completely redundant
@@ -81,6 +67,8 @@ endif
 ##
 #############################################################
 
+eval `CheckCDSToolVersion "SPECTRE_VERSION" "CDS_SPECTRE" "SPECTRE_*"`
+
 if ($?SPECTRE_VERSION) then
 	if (-d $CDS_TOP/$SPECTRE_VERSION) then
 		setenv CDS_SPECTRE $CDS_TOP/$SPECTRE_VERSION
@@ -91,7 +79,7 @@ else
 	setenv CDS_SPECTRE `find $CDS_TOP -maxdepth 1 -type d -name "SPECTRE_*" -printf "%f\n" | sort -r | awk '{print $1;exit}'`
 endif
 
-if !( $CDS_SPECTRE == "" ) then
+if ($?CDS_SPECTRE) then
 	setenv CDS_SPECTRE $CDS_TOP/$CDS_SPECTRE
 	setenv PATH "${PATH}:${CDS_SPECTRE}/bin"
 	alias help_cds_spectre '$CDS_SPECTRE/tools/bin/cdnshelp &'

@@ -12,4 +12,4 @@
 
 setenv SYN_DIR $CDS_TOP/../synopsys
 setenv PATH "${PATH}:$SYN_DIR/syn/bin:$SYN_DIR/tetramax/bin:$SYN_DIR/formality/bin:$SYN_DIR/primetime/bin"
-setenv SNPSLMD_LICENSE_FILE 7182@ee-fs1.ee.ic.ac.uk
+setenv SNPSLMD_LICENSE_FILE $SYN_LIC_HOST

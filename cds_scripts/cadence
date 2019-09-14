@@ -14,8 +14,12 @@ endif
 
 if ( $?kitid ) then
 
+# Setup Cadence directory structure & basic config files if empty
 if !( -e .cdsplotinit ) cp $CDS_TOP/../bin/.cdsplotinit .cdsplotinit
 if !( -e .cdsinit_local ) cp -f $CDS_TOP/../bin/.cdsinit_local .cdsinit_local
+if !( -d ~/.cdslogs ) mkdir ~/.cdslogs
+set amsstart = "ams_cds -64 -log ~/.cdslogs/CDSlog-\$USER-`date '+%d%h-%H:%M'`.log "
+set cdsstart = "virtuoso -64 -log ~/.cdslogs/CDSlog-\$USER-`date '+%d%h-%H:%M'`.log "
 
 echo "This is a validated Linux Build, please ignore (if any) the CADENCE SUPPORTED LINUX CONFIGURATION Warning. =)"
 switch ($kitid)
@@ -63,9 +67,9 @@ switch ($kitid)
 		endsw
 
 		if (-e ./.cdsinit) then
-			ams_cds -tech $1 -64
+			eval $amsstart -tech $1
 		else
-			ams_cds -tech $1 -64 -add ALL
+			eval $amsstart -tech $1 -add ALL
 		endif
 
 	breaksw
@@ -119,10 +123,10 @@ switch ($kitid)
                           breaksw
                 endsw
 
-                if (-e ./.cdsinit) then
-                        ams_cds -tech $1 -64
+								if (-e ./.cdsinit) then
+                        eval $amsstart -tech $1
                 else
-                        ams_cds -tech $1 -64 -add ALL
+                        eval $amsstart -tech $1 -add ALL
                 endif
 
         breaksw
@@ -193,10 +197,11 @@ switch ($kitid)
 		endsw
 
 		if (-e ./.cdsinit) then
-			ams_cds -tech $1 -64
+						eval $amsstart -tech $1
 		else
-			ams_cds -tech $1 -64 -add ALL
+						eval $amsstart -tech $1 -add ALL
 		endif
+
 	breaksw
 
 # UMC Processes
@@ -252,7 +257,7 @@ switch ($kitid)
 
 		setenv UMC_FDK_PATH ${UMC_FDK_PATH}/$1
 		source $CDS_TOP/../bin/umcsetup.cshrc
-		virtuoso
+		eval $cdsstart
 	breaksw
 
 
@@ -260,31 +265,31 @@ switch ($kitid)
 	case "tsmc65LP":
 		echo "Cadence IC 6.1.6 (2016) Startup: Loading LP TSMC 65nm process..."
 		source $CDS_TOP/../bin/tsmcsetup.cshrc
-		virtuoso -64
+		eval $cdsstart
 	breaksw
 
 	case "tsmc65GP":
 		echo "Cadence IC 6.1.6 (2016) Startup: Loading GP TSMC 65nm process..."
 		source $CDS_TOP/../bin/tsmcsetup.cshrc
-		virtuoso -64
+		eval $cdsstart
 	breaksw
 
 # TSMC 180n Process
 	case "tsmc180":
 		echo "Cadence IC 6.1.7 (2016) Startup: Loading TSMC 180 LP MM/6M RF CMOS process..."
 		source $CDS_TOP/../bin/tsmcsetup.cshrc
-		virtuoso -64
+		eval $cdsstart
 	breaksw
 
 	case "tsmc180BCD":
 		echo "Cadence IC 6.1.7 (2016) Startup: Loading TSMC 180 BCD MM/6M HV CMOS process..."
 		source $CDS_TOP/../bin/tsmcsetup.cshrc
-		virtuoso -64
+		eval $cdsstart
 	breaksw
 	case "tsmc180FORTE":
 		echo "Cadence IC 6.1.7 (2016) Startup: Loading TSMC 180 BCD MM/6M HV CMOS process..."
 		source $CDS_TOP/../bin/tsmcsetup.cshrc
-		virtuoso -64
+		eval $cdsstart
 	breaksw
 # GPDK Processes
 	case "gpdk":
@@ -307,7 +312,7 @@ switch ($kitid)
 			  case "gpdk18":
 			    echo "Cadence IC 6.1.6-64b.500.8 (2015) Startup: Loading 180nm CMOS 9M/2P Generic PDK."
 			    source $CDS_TOP/../bin/gpdk18_env.cshrc
-			    virtuoso -64
+					eval $cdsstart
 			  breaksw
 
 		 	  default:

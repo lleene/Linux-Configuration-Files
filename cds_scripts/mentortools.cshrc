@@ -9,23 +9,19 @@
 #
 ##############################################################################
 
+# echo "loading mentor tools"
+
 #############################################################
 ##
 ## Calibre Configuration
 ##
 #############################################################
 
-if ($?CAL_VERSION) then
-	if (-d $CDS_TOP/../mentor/aoi_cal_$CAL_VERSION) then
-		setenv MGC_HOME $CDS_TOP/../mentor/aoi_cal_$CAL_VERSION
-	endif
-else
-	setenv MGC_HOME `find $CDS_TOP/../mentor -maxdepth 1 -type d -name "aoi_cal*" -printf "%f\n" | sort -r | awk '{print $1;exit}'`
-endif
+eval `CheckMGCToolVersion "CAL_VERSION" "MGC_HOME" "aoi_cal*"`
 
-if !( $MGC_HOME == "" ) then
+if ($?MGC_HOME) then
 	setenv MGC_HOME $CDS_TOP/../mentor/$MGC_HOME
-	setenv MGLS_LICENSE_FILE 1717@ib-artemis.ib.ic.ac.uk
+	setenv MGLS_LICENSE_FILE $MGLS_LICENSE_HOST
 	setenv PATH "${PATH}:${MGC_HOME}/bin"
 	# 2018 CALIBRE USES NEW PATH
 	setenv CALIBRE_HOME $MGC_HOME
@@ -44,6 +40,8 @@ endif
 ##
 ###############################################################################
 
+eval `CheckMGCToolVersion "MTI_VERSION" "MTI_HOME" "QUESTA-CORE*"`
+
 if ($?MTI_VERSION) then
 	if (-d $CDS_TOP/../mentor/$MTI_VERSION) then
 		setenv MTI_HOME $CDS_TOP/../mentor/$MTI_VERSION
@@ -54,7 +52,7 @@ else
 	setenv MTI_HOME `find $CDS_TOP/../mentor -maxdepth 1 -type d -name "QUESTA-CORE*" -printf "%f\n" | sort -r | awk '{print $1;exit}'`
 endif
 
-if !( $MTI_HOME == "" ) then
+if ($?MTI_HOME) then
 	setenv MTI_HOME $CDS_TOP/../mentor/$MTI_HOME
 	setenv PATH "${PATH}:${MTI_HOME}"
 	setenv MODEL_TECH "${MTI_HOME}"
@@ -67,6 +65,8 @@ endif
 ##
 ##############################################################################
 
+eval `CheckMGCToolVersion "OIN_VERSION" "HOME_0IN" "QUESTA-CDC*"`
+
 if ($?OIN_VERSION) then
 	if (-d $CDS_TOP/../mentor/$OIN_VERSION) then
 		setenv HOME_0IN $CDS_TOP/../mentor/$OIN_VERSION
@@ -77,7 +77,7 @@ else
 	setenv HOME_0IN `find $CDS_TOP/../mentor -maxdepth 1 -type d -name "QUESTA-CDC*" -printf "%f\n" | sort -r | awk '{print $1;exit}'`
 endif
 
-if !( $HOME_0IN == "" ) then
+if ($?HOME_0IN) then
 	setenv HOME_0IN $CDS_TOP/../mentor/$HOME_0IN
 	setenv PATH $PATH":$HOME_0IN/bin"
 	#setenv LD_LIBRARY_PATH $LD_LIBRARY_PATH":$HOME_0IN/lib"
@@ -92,6 +92,8 @@ endif
 ##
 ##############################################################################
 
+eval `CheckMGCToolVersion "INFACT_VERSION" "INFACT_HOME" "QUESTA-INFACT_*"`
+
 if ($?INFACT_VERSION) then
 	if (-d $CDS_TOP/../mentor/$INFACT_VERSION) then
 		setenv INFACT_HOME $CDS_TOP/../mentor/$INFACT_VERSION
@@ -102,7 +104,7 @@ else
 	setenv INFACT_HOME `find $CDS_TOP/../mentor -maxdepth 1 -type d -name "QUESTA-INFACT_*" -printf "%f\n" | sort -r | awk '{print $1;exit}'`
 endif
 
-if !( $INFACT_HOME == "" ) then
+if ($?INFACT_HOME) then
 	setenv INFACT_HOME $CDS_TOP/../mentor/$INFACT_HOME
 	setenv INFACT_CXX gcc_4.5.0
 	#setenv INFACT_CXX gcc_4.7.4
@@ -118,17 +120,9 @@ endif
 ##
 ##############################################################################
 
-if ($?QVIP_VERSION) then
-	if (-d $CDS_TOP/../mentor/$QVIP_VERSION) then
-		setenv QVIP_HOME $CDS_TOP/../mentor/$QVIP_VERSION
-	else
-		echo "Could not find" $QVIP_VERSION
-	endif
-else
-	setenv QVIP_HOME `find $CDS_TOP/../mentor -maxdepth 1 -type d -name "QUESTA-VIP_*" -printf "%f\n" | sort -r | awk '{print $1;exit}'`
-endif
+eval `CheckMGCToolVersion "QVIP_VERSION" "QVIP_HOME" "QUESTA-VIP_*"`
 
-if !( $QVIP_HOME == "" ) then
+if ($?QVIP_HOME) then
 	setenv QVIP_HOME $CDS_TOP/../mentor/$QVIP_HOME
 	setenv PATH "${PATH}:${QVIP_HOME}/bin"
 endif

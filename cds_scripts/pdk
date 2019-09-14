@@ -92,12 +92,8 @@ switch ($1)
 
 # TSMC Processes with check for compatable IC
   case "tsmc65LP":
-    if -e "$CDS_TOP/IC_6.1.6.080" then
-      echo "Setting TSMC 65nm Design kit for IC 6 (CDB)..."
-      exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
-    else
-      echo "TSMC is not available on this machine. Please use ib-theia."
-    endif
+    echo "Setting TSMC 65nm Design kit for IC 6 (CDB)..."
+    exec /bin/csh -c "$cmd_str $argv[2-$#argv] $end_str"
   breaksw
 
   case "tsmc65GP":
